@@ -1,14 +1,16 @@
 <?php 
 
 $class = 'home';
-session_start();
+//session_start();
+
+//$game = $_GET['game_id'];
 
     
 //var_dump($_SESSION);
 
     if(isset($_SESSION['user']) && !empty($_SESSION['user'])){
         include('inc/header.php');
-        echo "You are playing as ". $_SESSION['user'];
+        //echo "You are playing as ". $_SESSION['user'];
         $user = $_SESSION['user'];
         $user_id = $_SESSION['id'];
     ?>
@@ -17,18 +19,20 @@ session_start();
 
         include("config.php"); 
 
-        echo '<h3>Latest Scores</h3>';
+        echo '<h3>Latest Scores for '.$game.'</h3>';
 
-        
+        $query = "SELECT scores.*, games.*, users.*
+                    FROM scores
+                        JOIN games
+                            ON games.id = scores.game_id
+                        JOIN users
+                            ON users.id = scores.user_id
+                        
+                    WHERE games.id = 2 ";
 
-        $query = "SELECT * FROM scores 
-                    INNER JOIN games 
-                        ON scores.game_id=games.id 
-                    INNER JOIN users 
-                        ON scores.user_id=users.id
-                        WHERE scores.game_id=7 ORDER BY scores.score DESC;";
+        //$query = "SELECT * FROM scores INNER JOIN games ON scores.game_id=games.id WHERE scores.game_id='".$game_id."' ORDER BY scores.score;";
 
-        $rs=$conn->query($query);
+        $rs = $conn->query($query);
          
         if($rs === false) {
           trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR);
@@ -48,7 +52,9 @@ session_start();
             }
             //var_dump($obj);
             
-            echo '<h4>'.$obj->username.'</h4> <p>'.$obj->score.'</p>';
+            echo '<h4>'.$obj->name.'</h4>';
+            //echo '<p>'.$obj->description.'</p>';
+            echo '<p>'.$obj->score.'</p>';
             //echo '<p>'.$obj->user_id.'</p>';
             //echo '<img src="'.$obj->image.'" alt="'.$obj->name.'" />';
             echo '</div>';
@@ -68,8 +74,6 @@ session_start();
     <?php 
         include('inc/footer.php');
         // if session user is not set, tell that mofo to log in
-    } else {
-        header("location:login.php");    
-    }
+    } 
 
 ?>
