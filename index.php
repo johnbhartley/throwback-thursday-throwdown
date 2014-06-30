@@ -8,7 +8,7 @@ session_start();
 
     if(isset($_SESSION['user']) && !empty($_SESSION['user'])){
         include('inc/header.php');
-        echo "You are playing as ". $_SESSION['user'];
+        //echo "You are playing as ". $_SESSION['user'];
         $user = $_SESSION['user'];
         $user_id = $_SESSION['id'];
     ?>
@@ -17,7 +17,7 @@ session_start();
 
         include("config.php"); 
 
-        echo '<h3>Latest Scores</h3>';
+        echo '<h3 class="text-center">Top Scores of The Week</h3>';
 
         
 
@@ -39,16 +39,16 @@ session_start();
         echo '<div class="wrap games">';
         $i = 1;
         while($obj = $rs->fetch_object()) {
-            if(($i+2) % 3 == 0) {
-                echo '<div class="game fourcol columns first">';
-            } elseif($i % 3 == 0) {
-                echo '<div class="game fourcol columns last">';
-            } else {
-                echo '<div class="game fourcol columns">';
-            }
-            //var_dump($obj);
             
-            echo '<h4>'.$obj->username.'</h4> <p>'.$obj->score.'</p>';
+            echo '<div class="game twelvecol columns text-center first">';
+           
+            //var_dump($obj);
+            if($i === 1) {
+                 echo '<h2>'.$obj->username.'</h2> <h4>'.$obj->score.'</h4>';
+            } else {
+                echo '<h4>'.$obj->username.'</h4> <p>'.$obj->score.'</p>';
+            }
+           
             //echo '<p>'.$obj->user_id.'</p>';
             //echo '<img src="'.$obj->image.'" alt="'.$obj->name.'" />';
             echo '</div>';

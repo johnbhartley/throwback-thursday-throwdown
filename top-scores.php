@@ -6,7 +6,7 @@ $game_id = $_GET['game'];
         include('inc/header.php');
         include("config.php"); 
 
-        echo '<h3>Latest Scores</h3>';
+        echo '<h3>Top Scores for '.$game_id.'</h3>';
 
         
 
