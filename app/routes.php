@@ -18,5 +18,8 @@ Route::get('/', function()
 	return View::make('home');
 });
 
-Route::any('register', 'TTT\Controllers\UsersController@Register');
+Route::get('register', 'TTT\Controllers\UsersController@Register');
+Route::post('register', 'TTT\Controllers\UsersController@Create');
+
+
 Route::any('login', 'TTT\Controllers\UsersController@login');
